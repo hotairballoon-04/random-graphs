@@ -10,14 +10,23 @@ available_properties = [
 ]
 
 
-def display_histogram(data):
-    # Plot histogram
+def display_histogram(data, xlabel, ylabel, title):
+    max_val = max(data)
+    min_val = min(data)
+    bin_size = (max_val - min_val) / 20.0
     fig, ax = plt.subplots()
-    ax.hist(data, bins=np.arange(min(data), max(data) + 1.5) - 0.5, rwidth=0.8, color='skyblue', edgecolor='black')
-    ax.set_xticks(np.arange(min(data), max(data) + 1))
-    ax.set_xlabel('Number of Isolated Vertices')
-    ax.set_ylabel('Frequency')
-    ax.set_title('Histogram of Number of Isolated Vertices')
+    ax.hist(data, bins=np.arange(min_val, max_val + bin_size, bin_size), rwidth=0.8, color='skyblue', edgecolor='black')
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+    st.pyplot(fig)
+
+
+def display_pie_chart(data, title):
+    fig, ax = plt.subplots()
+    ax.pie(data.values(), labels=data.keys(), autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')
+    ax.set_title(title)
     st.pyplot(fig)
 
 
