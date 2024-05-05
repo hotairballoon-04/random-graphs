@@ -1,5 +1,3 @@
-# Deep Dive: Exploring Erdős-Rényi Random Graphs
-
 ## Introduction to Random Graphs
 
 Random graphs are mathematical models used to represent networks where connections between vertices are determined by a random process. They serve as fundamental tools in the study of complex systems, providing insights into phenomena ranging from social networks and the internet to biological networks and infrastructure systems.
