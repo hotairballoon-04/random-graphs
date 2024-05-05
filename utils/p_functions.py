@@ -2,7 +2,6 @@ import math
 
 # Available probability functions for p
 p_functions = {
-    "1/n^n": lambda n: 1 / (n ** n),
     "1/n^3": lambda n: 1 / (n ** 3),
     "1/n^2": lambda n: 1 / (n ** 2),
     "1/n": lambda n: 1 / n,
