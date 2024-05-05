@@ -4,7 +4,6 @@ import numpy as np
 
 def calculate_average_degree_sequence(graphs: list[nx.Graph]) -> list[int]:
     degree_sequences = [sorted(list(dict(graph.degree()).values()), reverse=True) for graph in graphs]
-    print(degree_sequences)
     avg_degree_sequence = np.mean(degree_sequences, axis=0)
 
     return [round(degree) for degree in avg_degree_sequence]
@@ -29,7 +28,6 @@ def find_closest_valid_degree_sequence(avg_degree_sequence: list) -> list:
             if sum_left > sum_right:
                 avg_degree_sequence[np.argmax(avg_degree_sequence)] -= 1
                 sequence_valid = False
-                print("INVALID SEQUENCE FOUND")
                 break
 
     closest_sequence = avg_degree_sequence

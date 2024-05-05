@@ -7,22 +7,34 @@ import streamlit as st
 available_properties = [
     'isolated_vertices',
     'average_degree',
+    'degree_distribution',
     'connected',
+    'components',
+    'number_of_K4',
+    'number_of_K5',
+
 ]
 
 
-def display_histogram(data: np.array, xlabel: str, ylabel: str, title: str):
+def display_histogram(data: np.array, xlabel: str, ylabel: str, title: str, scaling_parameter: int = 1):
     """
     Display histogram of data with given labels and title.
     """
     max_val = max(data)
     min_val = min(data)
-    bin_size = (max_val - min_val) / 20.0
+    bin_size = (max_val - min_val) / 20.0 if max_val != min_val else 1
+
     fig, ax = plt.subplots()
     ax.hist(data, bins=np.arange(min_val, max_val + bin_size, bin_size), rwidth=0.8, color='skyblue', edgecolor='black')
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
     ax.set_title(title)
+
+    if scaling_parameter != 1:
+        y_ticks = ax.get_yticks()
+        scaled_y_ticks = [tick / scaling_parameter for tick in y_ticks]
+        ax.set_yticklabels([f'{tick:.1f}' for tick in scaled_y_ticks])
+
     st.pyplot(fig)
 
 
@@ -51,15 +63,23 @@ def calculate_expected_graph_properties(n: int, p: float, n_simulations: int, pr
     assert set(properties) <= set(available_properties), f"Invalid property name. Available properties: {available_properties}"
 
     calculated_properties = {}
+    if properties:
+        random_graphs = [nx.erdos_renyi_graph(n, p) for _ in range(n_simulations)]
 
-    random_graphs = [nx.erdos_renyi_graph(n, p) for _ in range(n_simulations)]
-
-    for prop in properties:
-        if prop == 'isolated_vertices':
-            calculated_properties[prop] = [number_of_isolated_vertices(graph) for graph in random_graphs]
-        elif prop == 'average_degree':
-            calculated_properties[prop] = [2 * graph.number_of_edges() / graph.number_of_nodes() for graph in random_graphs]
-        elif prop == 'connected':
-            calculated_properties[prop] = sum([nx.is_connected(graph) for graph in random_graphs]) / n_simulations
+        for prop in properties:
+            if prop == 'isolated_vertices':
+                calculated_properties[prop] = [number_of_isolated_vertices(graph) for graph in random_graphs]
+            elif prop == 'average_degree':
+                calculated_properties[prop] = [2 * graph.number_of_edges() / graph.number_of_nodes() for graph in random_graphs]
+            elif prop == 'degree_distribution':
+                calculated_properties[prop] = [degree[1] for graph in random_graphs for degree in graph.degree()]
+            elif prop == 'connected':
+                calculated_properties[prop] = sum([nx.is_connected(graph) for graph in random_graphs]) / n_simulations
+            elif prop == 'components':
+                calculated_properties[prop] = [nx.number_connected_components(graph) for graph in random_graphs]
+            elif prop == 'number_of_K4':
+                calculated_properties[prop] = [len([clique for clique in nx.find_cliques(graph) if len(clique) == 4]) for graph in random_graphs]
+            elif prop == 'number_of_K5':
+                calculated_properties[prop] = [len([clique for clique in nx.find_cliques(graph) if len(clique) == 5]) for graph in random_graphs]
 
     return calculated_properties

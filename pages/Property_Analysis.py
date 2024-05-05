@@ -24,20 +24,33 @@ selected_properties = st.multiselect("Select Graph Properties", available_proper
 
 properties = calculate_expected_graph_properties(n, p, n_simulations, properties=selected_properties)
 
-# Create columns for dashboard view
-num_cols = min(2, len(selected_properties))
+if len(selected_properties) != 0:
+    # Create columns for dashboard view
+    num_cols = min(2, len(selected_properties))
 
-columns = st.columns(num_cols)
+    columns = st.columns(num_cols)
 
-
-for i, prop in enumerate(selected_properties):
-    if prop == 'isolated_vertices':
-        with columns[i % num_cols]:
-            display_histogram(properties[prop], xlabel='#K1', ylabel='Frequency', title='Histogram of number of isolated vertices')
-    if prop == 'average_degree':
-        with columns[i % num_cols]:
-            display_histogram(properties[prop], xlabel='d(G)', ylabel='Frequency', title='Histogram of average degree')
-    if prop == 'connected':
-        with columns[i % num_cols]:
-            display_pie_chart({'Connected': properties[prop], 'Not Connected': 1 - properties[prop]}, title='Connected vs Not Connected')
-
+    for i, prop in enumerate(selected_properties):
+        if prop == 'isolated_vertices':
+            with columns[i % num_cols]:
+                display_histogram(properties[prop], xlabel='#isolated vertices', ylabel='Frequency', title='Histogram of number of isolated vertices')
+        elif prop == 'average_degree':
+            with columns[i % num_cols]:
+                display_histogram(properties[prop], xlabel='d(G)', ylabel='Frequency', title='Histogram of average degree')
+        elif prop == 'degree_distribution':
+            with columns[i % num_cols]:
+                display_histogram(properties[prop], xlabel='d(v)', ylabel='Frequency', title='Histogram of degree distribution', scaling_parameter=n_simulations)
+        elif prop == 'connected':
+            with columns[i % num_cols]:
+                display_pie_chart({'Connected': properties[prop], 'Not Connected': 1 - properties[prop]}, title='Connected Graphs')
+        elif prop == 'components':
+            with columns[i % num_cols]:
+                display_histogram(properties[prop], xlabel='c(G)', ylabel='Frequency', title='Histogram of number of components')
+        elif prop == 'number_of_K4':
+            with columns[i % num_cols]:
+                display_histogram(properties[prop], xlabel='#K4', ylabel='Frequency', title='Histogram of number of K4')
+        elif prop == 'number_of_K5':
+            with columns[i % num_cols]:
+                display_histogram(properties[prop], xlabel='#K5', ylabel='Frequency', title='Histogram of number of K5')
+else:
+    st.write("Select at least one graph property to display.")
