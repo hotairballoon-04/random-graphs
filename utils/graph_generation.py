@@ -2,15 +2,17 @@ import networkx as nx
 import numpy as np
 
 
-def calculate_average_degree_sequence(graphs):
+def calculate_average_degree_sequence(graphs: list[nx.Graph]) -> list[int]:
     degree_sequences = [sorted(list(dict(graph.degree()).values()), reverse=True) for graph in graphs]
+    print(degree_sequences)
     avg_degree_sequence = np.mean(degree_sequences, axis=0)
 
     return [round(degree) for degree in avg_degree_sequence]
 
 
-def find_closest_valid_degree_sequence(avg_degree_sequence):
-    # Use Erdös-Gallai theorem to check if the degree sequence is valid
+def find_closest_valid_degree_sequence(avg_degree_sequence: list) -> list:
+    """Finds the closest valid degree sequence to the average degree sequence using the Erdös-Gallai theorem."""
+
     avg_degree_sequence = sorted(avg_degree_sequence, reverse=True)
 
     if sum(avg_degree_sequence) % 2 != 0:
@@ -34,7 +36,9 @@ def find_closest_valid_degree_sequence(avg_degree_sequence):
     return closest_sequence
 
 
-def construct_graph_from_degree_sequence(degree_sequence):
+def construct_graph_from_degree_sequence(degree_sequence: list) -> nx.Graph:
+    """Constructs a random simple graph from a given degree sequence using the configuration model."""
+
     # Create an empty graph
     graph = nx.Graph()
 
@@ -61,7 +65,9 @@ def construct_graph_from_degree_sequence(degree_sequence):
     return graph
 
 
-def generate_expected_graph(n, p, n_simulations=1000):
+def generate_expected_graph(n: int, p: float, n_simulations: int = 1000) -> nx.Graph:
+    """Generates a random graph with the expected degree sequence of an Erdős-Rényi graph with parameters n and p."""
+
     # Generate a random graphs
     random_graphs = [nx.erdos_renyi_graph(n, p) for _ in range(n_simulations)]
 

@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import streamlit as st
 
+# available graph properties to choose from
 available_properties = [
     'isolated_vertices',
     'average_degree',
@@ -10,7 +11,10 @@ available_properties = [
 ]
 
 
-def display_histogram(data, xlabel, ylabel, title):
+def display_histogram(data: np.array, xlabel: str, ylabel: str, title: str):
+    """
+    Display histogram of data with given labels and title.
+    """
     max_val = max(data)
     min_val = min(data)
     bin_size = (max_val - min_val) / 20.0
@@ -22,7 +26,10 @@ def display_histogram(data, xlabel, ylabel, title):
     st.pyplot(fig)
 
 
-def display_pie_chart(data, title):
+def display_pie_chart(data: np.array, title: str):
+    """
+    Display pie chart of data with given title.
+    """
     fig, ax = plt.subplots()
     ax.pie(data.values(), labels=data.keys(), autopct='%1.1f%%', startangle=90)
     ax.axis('equal')
@@ -30,11 +37,17 @@ def display_pie_chart(data, title):
     st.pyplot(fig)
 
 
-def number_of_isolated_vertices(graph):
+def number_of_isolated_vertices(graph: nx.Graph) -> int:
+    """
+    Calculate the number of isolated vertices in a graph.
+    """
     return len([node for node in graph.nodes() if graph.degree(node) == 0])
 
 
-def calculate_expected_graph_properties(n, p, n_simulations, properties=available_properties):
+def calculate_expected_graph_properties(n: int, p: float, n_simulations: int, properties: list) -> dict:
+    """
+    Calculate expected graph properties for a random graph with n nodes and probability p.
+    """
     assert set(properties) <= set(available_properties), f"Invalid property name. Available properties: {available_properties}"
 
     calculated_properties = {}
