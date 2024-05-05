@@ -11,7 +11,7 @@ st.sidebar.title("Configuration")
 n = st.sidebar.slider("Number of Nodes", 50, 1000, 250)
 
 # Select p function
-selected_function = st.sidebar.selectbox("Select Threshold Function", list(p_functions.keys()), index=5)
+selected_function = st.sidebar.selectbox("Select Probability Function", list(p_functions.keys()), index=5)
 
 # Select number of simulations
 n_simulations = st.sidebar.slider("Number of Simulations", 100, 1000, 500)
