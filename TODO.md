@@ -5,5 +5,5 @@
 - [X] Add config.toml
 - [X] Add more graph properties
 - [X] Add function doc strings
-- [ ] Add README.md
-- [ ] Add learning resources page
+- [X] Add README.md
+- [X] Add learning resources page
