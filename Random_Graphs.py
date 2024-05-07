@@ -22,7 +22,7 @@ def main():
     st.title("Random Graphs")
     st.info("""
     This app generates [Erdős–Rényi random graphs](https://en.wikipedia.org/wiki/Erdős–Rényi_model) and calculates the
-    expected graph based on the average degree sequence.
+    expected graph based on the average degree sequence using the [configuration model](https://en.wikipedia.org/wiki/Configuration_model).
     Use the sidebar to control the number of nodes and the probability function to control the look of the graph. \n
     Use Property Analysis to analyze the expected properties of a graph.
     """)
