@@ -27,6 +27,7 @@ def find_closest_valid_degree_sequence(avg_degree_sequence: list) -> list:
                 min(avg_degree_sequence[i], k) for i in range(k + 1, len(avg_degree_sequence)))
             if sum_left > sum_right:
                 avg_degree_sequence[np.argmax(avg_degree_sequence)] -= 1
+                avg_degree_sequence[np.argmin(avg_degree_sequence)] += 1
                 sequence_valid = False
                 break
 
